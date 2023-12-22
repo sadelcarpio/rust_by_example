@@ -12,4 +12,7 @@ path = "src/stack_and_heap/main.rs"
 name = "weight_calc"
 path = "src/weight_calc/main.rs"
 
-[dependencies]
+[workspace]
+members = [
+    "http_server",
+]

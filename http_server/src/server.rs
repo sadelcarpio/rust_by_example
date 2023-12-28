@@ -22,12 +22,6 @@ impl Server {
                 },
                 Err(e) => println!("Failed to establish a connection: {}", e),
             }
-            // other approach: using if statement
-            let res = listener.accept();  // example of recoverable error
-            if res.is_err() {
-                continue;
-            }
-            let (stream, addr) = res.unwrap();  // here we are sure there is no error
         }
     }
 }

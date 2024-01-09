@@ -3,12 +3,14 @@ use std::error::Error;
 use std::fmt::{Debug, Display, Formatter, Result as FmtResult};
 use std::str;
 use std::str::Utf8Error;
+use super::QueryString;
 
 use super::method::{Method, MethodError};
 
+#[derive(Debug)]
 pub struct Request<'buf> {  // generic over a lifetime
     path: &'buf str,  // lifetime specifier is needed so path does not point to empty buffer
-    query_string: Option<&'buf str>,
+    query_string: Option<QueryString<'buf>>,
     // means String can be absent
     method: Method,  // super goes one level up
 }
@@ -35,7 +37,7 @@ impl<'buf> TryFrom<&'buf [u8]> for Request<'buf> {  // make sure we are using th
         let mut query_string = None;
         // only matches on Some, since None is not necessary
         if let Some(i) = path.find('?') {
-            query_string = Some(&path[i + 1..]);  // means +1 byte, not +1 character
+            query_string = Some(QueryString::from(&path[i + 1..]));  // means +1 byte, not +1 character
             path = &path[..i]
         }
         Ok(Self {

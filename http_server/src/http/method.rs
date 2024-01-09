@@ -1,5 +1,6 @@
 use std::str::FromStr;
 
+#[derive(Debug)]
 pub enum Method {
     // in memory they are just incremental integers by default. Can associate different types for each variant.
     GET,

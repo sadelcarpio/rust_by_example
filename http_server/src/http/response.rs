@@ -12,7 +12,9 @@ impl Response {
         Response { status_code, body }
     }
 
-    pub fn send(&self, stream: &mut TcpStream) -> IoResult<()>{
+    pub fn send(&self, stream: &mut dyn Write) -> IoResult<()>{  // indicates Write is a trait (dynamic Dispatch)
+        // stream is a variable that has the Write trait, therefore implements the write function
+        // the compiler figures out the concrete implementation of Write trait
         let body = match &self.body {
             Some(b) => b,
             None => "",

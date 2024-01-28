@@ -1,4 +1,3 @@
-use std::net::TcpStream;
 use std::io::{Write, Result as IoResult};
 use super::StatusCode;
 
@@ -12,9 +11,7 @@ impl Response {
         Response { status_code, body }
     }
 
-    pub fn send(&self, stream: &mut dyn Write) -> IoResult<()>{  // indicates Write is a trait (dynamic Dispatch)
-        // stream is a variable that has the Write trait, therefore implements the write function
-        // the compiler figures out the concrete implementation of Write trait
+    pub fn send(&self, stream: &mut impl Write) -> IoResult<()>{  // with impl it is done at compile time, slower compilation
         let body = match &self.body {
             Some(b) => b,
             None => "",

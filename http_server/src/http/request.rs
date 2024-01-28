@@ -15,6 +15,21 @@ pub struct Request<'buf> {  // generic over a lifetime
     method: Method,  // super goes one level up
 }
 
+impl<'buf> Request<'buf> {
+    // Getter methods
+    pub fn path(&self) -> &str {
+        self.path
+    }
+
+    pub fn method(&self) -> &Method {
+        &self.method
+    }
+
+    pub fn query_string(&self) -> Option<&QueryString> {  // more flexible than &Option<QueryString>
+        self.query_string.as_ref()
+    }
+}
+
 impl<'buf> TryFrom<&'buf [u8]> for Request<'buf> {  // make sure we are using the same lifetime
     type Error = ParseError;
 
